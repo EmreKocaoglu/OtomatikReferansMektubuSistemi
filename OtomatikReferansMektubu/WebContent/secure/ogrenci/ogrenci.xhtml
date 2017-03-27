@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/layout/template.xhtml">
+	<ui:define name="pageContent">
+
+
+		<h:form id="frm">
+
+			<p:growl id="growl" showDetail="true" life="5000" autoUpdate="true"
+				sticky="false" />
+
+			<p:dataTable id="tblOgrenci" var="o" value="#{ogrenciView.lazyModel}"
+				rows="10" paginator="true" lazy="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<p:column headerText="No">
+					<h:outputText value="#{o.id}" />
+				</p:column>
+
+				<p:column headerText="Derece">
+					<h:outputText value="#{o.derece}" />
+				</p:column>
+
+				<p:column headerText="Program">
+					<h:outputText value="#{o.program}" />
+				</p:column>
+
+				<p:column headerText="Ogrenci Dogum Tarihi">
+					<h:outputText value="#{o.dogumTarihi}" />
+				</p:column>
+				<p:column headerText="Şehir">
+					<h:outputText value="#{o.sehir}" />
+				</p:column>
+				<p:column headerText="Adres">
+					<h:outputText value="#{o.adres}" />
+				</p:column>
+				<p:column headerText="Posta Kodu">
+					<h:outputText value="#{o.postaKodu}" />
+				</p:column>
+				<p:column headerText="İşlemler">
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{ogrenciView.sil(y.id)}" update=":frm:tblOgrenci"></p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"></p:commandButton>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Ekle" type="button"
+						onclick="PF('dlg2').show();" />
+				</f:facet>
+			</p:dataTable>
+			<p:dialog header="Öğrenci Bilgileri" draggable="false"
+				resizable="false" id="dlg2" widgetVar="dlg2" modal="true">
+				<p:panelGrid columns="1">
+					<h:outputText value="Derece:" />
+					<p:inputText value="#{ogrenciView.ogrenci.derece}" />
+
+					<h:outputText value="Program:" />
+					<p:inputText value="#{ogrenciView.ogrenci.program}" />
+
+					<h:outputText value="Dogum Tarihi:" />
+					<p:inputText value="#{ogrenciView.ogrenci.dogumTarihi}" />
+
+					<h:outputText value="Şehir :" />
+					<p:calendar value="#{ogrenciView.ogrenci.sehir}"></p:calendar>
+					<h:outputText value="Adres:" />
+					<p:calendar value="#{ogrenciView.ogrenci.adres}"></p:calendar>
+					<h:outputText value="Posta Kodu:" />
+					<p:inputText value="#{ogrenciView.ogrenci.postaKodu}" />
+					<p:commandButton value="Kaydet"
+						actionListener="#{ogrenciView.kaydet}"
+						update=":frm:tblOgrenci, :frm:dlg2 "
+						oncomplete="PF('dlg2').hide();"></p:commandButton>
+				</p:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
